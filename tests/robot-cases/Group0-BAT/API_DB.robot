@@ -148,6 +148,14 @@ Test Case - Proxy Cache
     [Tags]  proxy_cache
     Harbor API Test  ./tests/apitests/python/test_proxy_cache.py
 
+Test Case - Proxy Cache
+    [Tags]  proxy_cache_from_dockerhub
+    Harbor API Test  ./tests/apitests/python/test_proxy_cache.py PROXY_UPSTREAM_LIST=docker-hub
+
+Test Case - Proxy Cache
+    [Tags]  proxy_cache_from_jfrog
+    Harbor API Test  ./tests/apitests/python/test_proxy_cache.py  PROXY_UPSTREAM_LIST=jfrog
+
 Test Case - Tag Immutability
     [Tags]  tag_immutability
     Harbor API Test  ./tests/apitests/python/test_tag_immutability.py

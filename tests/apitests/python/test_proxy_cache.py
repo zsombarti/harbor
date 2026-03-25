@@ -4,6 +4,7 @@ from __future__ import absolute_import
 import unittest
 import urllib
 import sys
+import os
 
 from testutils import ADMIN_CLIENT, suppress_urllib3_warning, DOCKER_USER, DOCKER_PWD
 from testutils import harbor_server
@@ -70,6 +71,12 @@ class TestProxyCache(unittest.TestCase):
             registry = "https://hub.docker.com"
             # Memo: ctr will not send image pull request if manifest list already exist, so we pull different manifest list for different registry;
             index_for_ctr = dict(image = "alpine", tag = "3.12.0")
+        # else if registry_type == "jfrog":
+        #     user_namespace = "docker-remote"
+        #     access_key =  JFROG_USER
+        #     access_secret = JFROG_PWD
+        #     registry = JFROG_REGISTRY_URL
+        #     index_for_ctr = dict(image = "alpine", tag = "3.12.0")
         else:
             user_namespace = "nightly"
             registry = "https://registry.goharbor.io"
@@ -121,11 +128,14 @@ class TestProxyCache(unittest.TestCase):
         print("Index's reference by ctr CLI:", ret_index_by_c.references)
         self.assertTrue(len(ret_index_by_c.references) == 1)
 
-    def test_proxy_cache_from_harbor(self):
-        self.do_validate("harbor")
-
-    #def test_proxy_cache_from_dockerhub(self):
-    #    self.do_validate("docker-hub")
+    def test_proxy_cache(self):
+        proxy_upstream_list = os.getenv("PROXY_UPSTREAM_LIST", "").lower()
+        if not proxy_upstream_list or "harbor" in proxy_upstream_list:
+            self.do_validate("harbor")
+        if "docker-hub" in proxy_upstream_list:
+            self.do_validate("docker-hub")
+        if "jfrog" in proxy_upstream_list:
+            self.do_validate("jfrog")
 
 if __name__ == '__main__':
     suite = unittest.TestSuite(unittest.makeSuite(TestProxyCache))
