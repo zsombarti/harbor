@@ -148,11 +148,11 @@ Test Case - Proxy Cache
     [Tags]  proxy_cache
     Harbor API Test  ./tests/apitests/python/test_proxy_cache.py
 
-Test Case - Proxy Cache
+Test Case - Proxy Cache From Dockerhub
     [Tags]  proxy_cache_from_dockerhub
-    Harbor API Test  ./tests/apitests/python/test_proxy_cache.py PROXY_UPSTREAM_LIST=docker-hub
+    Harbor API Test  ./tests/apitests/python/test_proxy_cache.py  PROXY_UPSTREAM_LIST=docker-hub
 
-Test Case - Proxy Cache
+Test Case - Proxy Cache From JFrog
     [Tags]  proxy_cache_from_jfrog
     Harbor API Test  ./tests/apitests/python/test_proxy_cache.py  PROXY_UPSTREAM_LIST=jfrog
 
