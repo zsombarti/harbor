@@ -71,7 +71,7 @@ class TestProxyCache(unittest.TestCase):
             registry = "https://hub.docker.com"
             # Memo: ctr will not send image pull request if manifest list already exist, so we pull different manifest list for different registry;
             index_for_ctr = dict(image = "alpine", tag = "3.12.0")
-        elif registry_type == "jfrog":
+        elif registry_type == "jfrog-artifactory":
             user_namespace = JFROG_NAMESPACE
             access_key =  JFROG_USER
             access_secret = JFROG_PWD
