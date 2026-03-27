@@ -82,7 +82,24 @@ class TestProxyCache(unittest.TestCase):
             registry = "https://registry.goharbor.io"
             index_for_ctr = dict(image = "busybox", tag = "1.32.0")
 
-        registry_id, _ = self.registry.create_registry(registry, name=_random_name(registry_type), registry_type=registry_type, access_key = access_key, access_secret = access_secret, insecure=True, **ADMIN_CLIENT)
+        registry_payload = {
+            "url": registry,
+            "name": _random_name(registry_type),
+            "registry_type": registry_type,
+            "access_key": access_key,
+            "access_secret": access_secret,
+            "insecure": True,
+        }
+        print("Registry payload before create:", registry_payload)
+        registry_id, _ = self.registry.create_registry(
+            registry_payload["url"],
+            name=registry_payload["name"],
+            registry_type=registry_payload["registry_type"],
+            access_key=registry_payload["access_key"],
+            access_secret=registry_payload["access_secret"],
+            insecure=registry_payload["insecure"],
+            **ADMIN_CLIENT
+        )
 
         print("registry_id:", registry_id)
 
