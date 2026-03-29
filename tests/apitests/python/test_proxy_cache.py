@@ -66,7 +66,7 @@ class TestProxyCache(unittest.TestCase):
         #1. Create a new registry;
         if registry_type == "docker-hub":
             user_namespace = DOCKER_USER
-            access_key = user_namespace
+            access_key = DOCKER_USER
             access_secret = DOCKER_PWD
             registry = "https://hub.docker.com"
             # Memo: ctr will not send image pull request if manifest list already exist, so we pull different manifest list for different registry;
