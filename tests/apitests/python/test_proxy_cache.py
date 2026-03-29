@@ -6,6 +6,8 @@ import urllib
 import sys
 import os
 
+import subprocess
+
 from testutils import ADMIN_CLIENT, suppress_urllib3_warning, DOCKER_USER, DOCKER_PWD, JFROG_USER, JFROG_PWD, JFROG_REGISTRY_URL, JFROG_NAMESPACE
 from testutils import harbor_server
 from testutils import TEARDOWN
@@ -54,6 +56,9 @@ class TestProxyCache(unittest.TestCase):
             1. Delete project(PA);
             2. Delete user(UA).
         """
+        subprocess.run(["docker", "image", "prune", "-a", "-f"], check=False)
+        subprocess.run(["ctr", "image", "prune", "--all"], check=False)
+
         user_id, user_name = self.user.create_user(user_password = self.user_password, **ADMIN_CLIENT)
         USER_CLIENT=dict(endpoint = self.url, username = user_name, password = self.user_password)
 
