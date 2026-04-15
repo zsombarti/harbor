@@ -96,15 +96,3 @@ clean:
 ## deps: Download Go module dependencies
 deps:
 	go mod download
-	go mod tidy
-
-## generate: Run go generate
-generate:
-	go generate ./src/...
-
-## help: Show this help message
-help:
-	@echo "Usage: make [target]"
-	@echo ""
-	@echo "Targets:"
-	@grep -E '^
