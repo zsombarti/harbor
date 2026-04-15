@@ -63,18 +63,20 @@ vet:
 	go vet ./src/...
 
 ## docker-build: Build Docker images
+# Note: using a personal registry prefix for local dev to avoid accidentally pushing to goharbor
+DOCKER_REGISTRY ?= localhost:5000
 docker-build:
 	@echo "Building Docker images for version $(VERSION)..."
-	docker build -t goharbor/harbor-core:$(VERSION) -f make/photon/core/Dockerfile .
-	docker build -t goharbor/harbor-jobservice:$(VERSION) -f make/photon/jobservice/Dockerfile .
-	docker build -t goharbor/harbor-portal:$(VERSION) -f make/photon/portal/Dockerfile .
+	docker build -t $(DOCKER_REGISTRY)/harbor-core:$(VERSION) -f make/photon/core/Dockerfile .
+	docker build -t $(DOCKER_REGISTRY)/harbor-jobservice:$(VERSION) -f make/photon/jobservice/Dockerfile .
+	docker build -t $(DOCKER_REGISTRY)/harbor-portal:$(VERSION) -f make/photon/portal/Dockerfile .
 
 ## docker-push: Push Docker images to registry
 docker-push: docker-build
 	@echo "Pushing Docker images..."
-	docker push goharbor/harbor-core:$(VERSION)
-	docker push goharbor/harbor-jobservice:$(VERSION)
-	docker push goharbor/harbor-portal:$(VERSION)
+	docker push $(DOCKER_REGISTRY)/harbor-core:$(VERSION)
+	docker push $(DOCKER_REGISTRY)/harbor-jobservice:$(VERSION)
+	docker push $(DOCKER_REGISTRY)/harbor-portal:$(VERSION)
 
 ## up: Start Harbor using docker-compose
 up:
@@ -105,4 +107,4 @@ help:
 	@echo "Usage: make [target]"
 	@echo ""
 	@echo "Targets:"
-	@grep -E '^## ' Makefile | sed 's/## /  /'
+	@grep -E '^
